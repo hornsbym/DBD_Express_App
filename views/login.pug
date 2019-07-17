@@ -1,0 +1,15 @@
+html
+    head
+        title= "Login"
+    body
+        h1= "Login"
+        h3= "Please enter username and password below"
+        form(method="POST" action= "/verifyUser")
+            div#errorMessage= errorMsg
+            label(for="username")= "Username"
+            input(name="username" type="text" value="dbd")
+            br
+            label(for="password")= "Password"
+            input(name="password" type="password" value="dbd")
+            br
+            input(type="submit")

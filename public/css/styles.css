@@ -1,0 +1,271 @@
+body{
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #edf4d7;
+    color: rgb(98, 98, 98);
+    margin: 0%;
+    padding: 0%;
+}
+
+a#facebook {
+    color: rgb(60, 127, 28);
+}
+
+a#facebook:hover {
+    padding: .2em;
+    background-color: rgb(60, 127, 28);
+    color: #edf4d7;
+}
+
+span.greenText {
+    color: rgb(60, 127, 28);
+}
+
+span.smallText {
+    font-size: .65em;
+}
+
+#Navbar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: rgb(90, 157, 58);
+    padding-top: 1em;
+    padding-bottom: 1em;
+    width: 100%;
+}
+
+.NavItem{
+    text-decoration: none;
+    padding-top: 1em;
+    padding-bottom: .8em;
+    padding-left: 1em;
+    padding-right: 1em;
+    font-size: 1.25em;    /*20px:20/16*/
+    background-color: rgb(90, 157, 58);
+    color: white;
+}
+
+.NavItem:hover{
+    background-color: #edf4d7;
+    color: rgb(118, 118, 118);
+    height: 10em;
+}
+
+header#main_header {
+    padding-top: 5%;
+}
+
+section {
+    width: 100%;
+    padding-top: 1%;
+}
+
+section#first_section {
+    padding-top: 0%;
+}
+
+section#pricing td, section#pricing th {
+    padding: .25em .5em;
+    text-align: right;
+    text-align: center;
+}
+
+section#contact {
+    margin-top: 5%;
+    text-align: center;
+}
+
+table {
+    margin-right: auto;
+    margin-left: auto;
+}
+
+table#contact_table p {
+    margin-top: 0%;
+    margin-bottom: 0%;
+}
+
+section#menu table, section#health table {
+    border-collapse: collapse;
+    margin-bottom: 2em;
+}
+
+section#health tr {
+    text-align: center;
+    border-bottom: 1px solid rgb(118, 118, 118);
+}
+
+section#health p {
+    width: 100%;
+    text-align: center;
+}
+
+table#contact_table td {
+    padding: .5em;
+    text-align: left;
+}
+
+figure.food_fig>img {
+    width: 100%;
+}
+
+figure.food_fig {
+    box-shadow: .5em .75em .5em grey;
+}
+
+figure#intro_fig {
+    display: block;
+    max-width: 25%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figure#intro_fig img {
+    width: 100%;
+}
+
+div.info_paragraphs {
+    width: 60%;
+    font-size: 1.25em;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+header {
+    text-align: center;
+}
+
+header#main_header p {
+    text-align: center;
+}
+
+div#how_it_works_section {
+    margin: 2.5% 5%;
+    text-align: center;
+}
+
+div.instruction_card {
+    vertical-align: top;
+    width: 25%;
+    padding: 0% 2.5%;
+}
+
+div.number_title {
+    background-color: rgb(90, 157, 58);
+    font-size: 4em;
+    margin-left: auto;
+    margin-right: auto;
+    padding: .15em .3em;
+    border-radius: 1em;
+    color: white;
+    width: fit-content;
+}
+
+div.instruction_header {
+    margin-top: 5.5%;
+    font-size: 1.3em;
+    text-align: center;
+}
+
+div.instruction_info {
+    font-size: 1.2em;
+}
+
+.inlineContainer {
+    display: inline-block;
+}
+
+div#menu_tables_container{
+    width: fit-content;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+div#entree_table_container {
+    width: 60%;
+    padding-right: 1em;
+}
+
+div#sides_table_container {
+    width: 30%;
+    vertical-align: top;
+}
+
+section#menu td, section#menu th, section#health td, section#health th {
+    padding: .5em;
+}
+
+
+div#entree_table_container tr {
+    border-bottom: 1px solid black;
+}
+
+div#entree_table_container table tr:first-child {
+    border-bottom: none;
+}
+
+th.table_title {
+    background-color: rgb(90, 157, 58);
+    color: white;
+}
+
+div.photo_container {
+    width: 49%;
+}
+
+img {
+    margin-bottom: -4px;
+}
+
+figure>figcaption {
+    background-color: white;
+    margin-top: -4px;
+    font-style: italic;
+    padding-right: 2em;
+    text-align: right;
+}
+
+footer {
+    background-color: rgb(90, 157, 58);
+    text-align: center;
+    color: white;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    margin-top: 5%;
+    width: 100%;
+}
+
+@media screen and (max-width: 479px) {
+    div.instruction_card {
+        width: 100%;
+    }
+
+    div#entree_table_container {
+        width: 100%;
+    }
+
+    div#sides_table_container {
+        width: 100%;
+    }
+
+    div.info_paragraphs {
+        width: 90%;
+    }
+
+    .NavItem{
+        padding-top: .5em;
+        padding-bottom: .4em;
+        padding-left: .2em;
+        padding-right: .2em;
+        font-size: 1em;    /*20px:20/16*/
+    }
+
+    div.photo_container {
+        width: 90%;
+    }
+
+    figure#intro_fig {
+        max-width: 83.33%;
+    }
+ }
