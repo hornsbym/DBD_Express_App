@@ -1,15 +1,23 @@
 html
     head
         title= "Login"
+        link(rel="stylesheet", href="/static/css/adminStyles.css")
     body
-        h1= "Login"
-        h3= "Please enter username and password below"
-        form(method="POST" action= "/verifyUser")
+        div.formContainer
+            div.headingContainer
+                h1= "Login"
+                h3= "Please enter username and password below"
             div#errorMessage= errorMsg
-            label(for="username")= "Username"
-            input(name="username" type="text")
-            br
-            label(for="password")= "Password"
-            input(name="password" type="password")
-            br
-            input(type="submit")
+            form(method="POST" action= "/verifyUser")
+                table
+                    tr
+                        th
+                            label(for="username")= "Username"
+                        td
+                            input(name="username" type="text")
+                    tr
+                        th
+                            label(for="password")= "Password"
+                        td
+                            input(name="password" type="password")
+                input(type="submit")
