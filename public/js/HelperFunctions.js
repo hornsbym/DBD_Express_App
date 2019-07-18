@@ -86,24 +86,29 @@ function create_date_string(dateJSON) {
     return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
 }
 
-function log_use(request) {
-    // Tracks how many users access the website and how they're accessing it
-    var origin = request.headers.origin;
-    var agent = request.headers["user-agent"];
+function log_use() {
+    var days = ["Sun", "Mon", "Tues", "Weds", "Thu", "Fri", "Sat"]
 
-    read("./json/use_logs.json", (data) => {
+    // Tracks how many users access the website per day
+    var date = new Date();
+
+    var day = days[date.getDay()]
+    var dd = String(date.getDate());
+    var mm = String(date.getMonth());
+    var yyyy = String(date.getFullYear());
+
+
+    var key = mm + "-" + dd + "-" + yyyy  + "-" + day;
+
+    read(getPathToFile("use_logs.json"), (data) => {
         // Gets the logs we already have:
         var logs = JSON.parse(data);
 
-
-        // Increments the current count:
-        logs.use_count = logs.use_count + 1;
-
-        // Pushes the origin and agents onto the lists:
-
-        logs.origins.push(origin);
-        logs.agents.push(agent)
-
+        if (logs[key]) {
+            logs[key] = logs[key] + 1;
+        } else {
+            logs[key] = 1;
+        }
 
         fs.writeFile("./json/use_logs.json", JSON.stringify(logs), (err) => {
             if (err) {

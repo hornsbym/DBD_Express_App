@@ -19,6 +19,13 @@ var port = process.env.PORT;
 var url = process.env.URL;
 
 app.get("/", (req, res) => {
+    try {
+        helpers.log_use()
+    } catch(e) {
+        console.log("*** Error logging use ***")
+        console.log(e)
+    }
+
     json.download_meal_data((meal_data) => {
 
         res.render("index", {
@@ -76,9 +83,12 @@ app.get("/", (req, res) => {
 
 // Sends the user to the login page
 app.get("/login", (req, res) => {
+    var errorMessage = req.session.loginError;
     req.session.valid = false;
 
-    res.render("login")
+    res.render("login", {
+        errorMessage: errorMessage
+    })
 })
 
 app.get("/admin", (req, res) => {
@@ -164,6 +174,7 @@ app.post("/verifyUser", (req, res) => {
         req.session.valid = true;
         res.redirect("/admin");
     } else {
+        req.session.loginError = "Check credentials and try again."
         res.redirect("/login");
     }
 })
