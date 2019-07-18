@@ -1,12 +1,18 @@
 // Gives access to file server
+const fs = require("fs");
+const path = require("path");
 
-var fs = require("fs");
+function getPathToFile(fileName) {
+    const jsonDir = path.resolve(__dirname, "../../json");
+
+    return path.join(jsonDir, fileName)
+}
 
 function create_checkboxes(allHealthItemsJSON) {
     var healthy = allHealthItemsJSON;
 
     var check_boxes = {
-        healthy_item_one : {
+        healthy_item_one: {
             keto: false,
             paleo: false,
             gf: false
@@ -16,17 +22,17 @@ function create_checkboxes(allHealthItemsJSON) {
             paleo: false,
             gf: false
         },
-        healthy_item_three : {
+        healthy_item_three: {
             keto: false,
             paleo: false,
             gf: false
         },
-        healthy_item_four : {
+        healthy_item_four: {
             keto: false,
             paleo: false,
             gf: false
         },
-        healthy_item_five : {
+        healthy_item_five: {
             keto: false,
             paleo: false,
             gf: false
@@ -52,12 +58,12 @@ function create_checkboxes(allHealthItemsJSON) {
     return check_boxes;
 }
 
-function create_specifications(healthItemJSON){
+function create_specifications(healthItemJSON) {
     var return_string = "";
 
     if (healthItemJSON.keto) {
         return_string += "K,";
-    } 
+    }
     if (healthItemJSON.paleo) {
         return_string += "P,";
     }
@@ -80,7 +86,7 @@ function create_date_string(dateJSON) {
     return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
 }
 
-function log_use(request){
+function log_use(request) {
     // Tracks how many users access the website and how they're accessing it
     var origin = request.headers.origin;
     var agent = request.headers["user-agent"];
@@ -133,12 +139,53 @@ function read(file_location, callback) {
     })
 }
 
+function store_date(dateJSON) {
+    var date = dateJSON.date.split("-");
+
+    var newDate = {
+        day: date[2],
+        month: date[1],
+        year: date[0]
+    }
+
+    save(getPathToFile("date.json"), JSON.stringify(newDate), () => {
+    })
+}
+
+function store_entrees(entreesJSON) {
+    var entrees = JSON.stringify(entreesJSON)
+
+    save(getPathToFile("entrees.json"), entrees, () => {
+    })
+}
+
+function store_sides(sidesJSON) {
+    // Determines what gets stored in the JSON file:
+    var sides = JSON.stringify(sidesJSON);
+
+    // Writes to the appropriate JSON file:
+    save(getPathToFile("sides.json"), sides, () => {
+    })
+}
+
+function store_healthy(healthyJSON) {
+    var healthy = JSON.stringify(healthyJSON);
+
+    save(getPathToFile("health.json"), healthy, () => {
+    })
+}
+
 module.exports = {
-    save : save,
-    read : read,
-    log_use : log_use,
-    create_specifications : create_specifications,
-    create_checkboxes : create_checkboxes,
-    create_date_string : create_date_string,
-    convert_number_to_month: convert_number_to_month
+    save: save,
+    read: read,
+    log_use: log_use,
+    getPathToFile: getPathToFile,
+    create_specifications: create_specifications,
+    create_checkboxes: create_checkboxes,
+    create_date_string: create_date_string,
+    convert_number_to_month: convert_number_to_month,
+    store_date: store_date,
+    store_entrees: store_entrees,
+    store_sides: store_sides,
+    store_healthy: store_healthy
 }

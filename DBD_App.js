@@ -77,6 +77,7 @@ app.get("/", (req, res) => {
 // Sends the user to the login page
 app.get("/login", (req, res) => {
     req.session.valid = false;
+
     res.render("login")
 })
 
@@ -156,7 +157,6 @@ app.get("/admin", (req, res) => {
 
 // Verifies the user
 app.post("/verifyUser", (req, res) => {
-
     var username = req.body.username;
     var password = req.body.password;
 
@@ -168,106 +168,90 @@ app.post("/verifyUser", (req, res) => {
     }
 })
 
-app.post("/date", (req, res) => {
-    var date = req.body.date.split("-")
+// Saves all changes to the appropriate classes:
+app.post("/submitChanges", (req, res) => {
+    var rawJSON = req.body;
 
-    var newDate = {
-        day: date[2],
-        month: date[1],
-        year: date[0]
+    var date = {
+        date : rawJSON.date
     }
 
-    helpers.save(json.getPathToFile("date.json"), JSON.stringify(newDate), () => {
-        res.redirect(url + port + "/admin")
-    })
-})
+    var entrees = {
+        monday: rawJSON.monday,
+        tuesday: rawJSON.tuesday,
+        wednesday: rawJSON.wednesday,
+        thursday: rawJSON.thursday,
+        friday: rawJSON.friday,
+        saturday: rawJSON.saturday,
+        sunday: rawJSON.sunday
+    }
 
-app.post("/entrees", (req, res) => {
-    // Determines what gets stored in the JSON file:
-    var entrees = JSON.stringify(req.body);
+    var sides = {
+        sideOne : rawJSON.sideOne,
+        sideTwo : rawJSON.sideTwo,
+        sideThree : rawJSON.sideThree
+    }
 
-    // Writes to the appropriate JSON file:
-    helpers.save(json.getPathToFile("entrees.json"), entrees, () => {
-        // Redirects to admin page:
-        res.redirect(url + port + "/admin")
-    })
-})
-
-app.post("/sides", (req, res) => {
-    // Determines what gets stored in the JSON file:
-    var sides = JSON.stringify(req.body);
-
-    // Writes to the appropriate JSON file:
-    helpers.save(json.getPathToFile("sides.json"), sides, () => {
-        // Redirects to admin page:
-        res.redirect(url + port + "/admin")
-    })
-})
-
-app.post("/healthy", (req, res) => {
-    // Recieves form data:
-    var items = req.body;
-
-    // Formats the data into a uniform JSON objec:
-    var healthy_menu = {
+    var healthy = {
         "healthy_item_one": {
-            "meal": items.healthy_item_one_meal,
-            "keto": items.healthy_item_one_keto,
-            "paleo": items.healthy_item_one_paleo,
-            "gf": items.healthy_item_one_gf,
-            "fats": items.healthy_item_one_fat,
-            "protein": items.healthy_item_one_protein,
-            "carbs": items.healthy_item_one_carbs,
-            "calories": items.healthy_item_one_calories
+            "meal": rawJSON.healthy_item_one_meal,
+            "keto": rawJSON.healthy_item_one_keto,
+            "paleo": rawJSON.healthy_item_one_paleo,
+            "gf": rawJSON.healthy_item_one_gf,
+            "fats": rawJSON.healthy_item_one_fat,
+            "protein": rawJSON.healthy_item_one_protein,
+            "carbs": rawJSON.healthy_item_one_carbs,
+            "calories": rawJSON.healthy_item_one_calories
         },
         "healthy_item_two": {
-            "meal": items.healthy_item_two_meal,
-            "keto": items.healthy_item_two_keto,
-            "paleo": items.healthy_item_two_paleo,
-            "gf": items.healthy_item_two_gf,
-            "fats": items.healthy_item_two_fat,
-            "protein": items.healthy_item_two_protein,
-            "carbs": items.healthy_item_two_carbs,
-            "calories": items.healthy_item_two_calories
+            "meal": rawJSON.healthy_item_two_meal,
+            "keto": rawJSON.healthy_item_two_keto,
+            "paleo": rawJSON.healthy_item_two_paleo,
+            "gf": rawJSON.healthy_item_two_gf,
+            "fats": rawJSON.healthy_item_two_fat,
+            "protein": rawJSON.healthy_item_two_protein,
+            "carbs": rawJSON.healthy_item_two_carbs,
+            "calories": rawJSON.healthy_item_two_calories
         },
         "healthy_item_three": {
-            "meal": items.healthy_item_three_meal,
-            "keto": items.healthy_item_three_keto,
-            "paleo": items.healthy_item_three_paleo,
-            "gf": items.healthy_item_three_gf,
-            "fats": items.healthy_item_three_fat,
-            "protein": items.healthy_item_three_protein,
-            "carbs": items.healthy_item_three_carbs,
-            "calories": items.healthy_item_three_calories
+            "meal": rawJSON.healthy_item_three_meal,
+            "keto": rawJSON.healthy_item_three_keto,
+            "paleo": rawJSON.healthy_item_three_paleo,
+            "gf": rawJSON.healthy_item_three_gf,
+            "fats": rawJSON.healthy_item_three_fat,
+            "protein": rawJSON.healthy_item_three_protein,
+            "carbs": rawJSON.healthy_item_three_carbs,
+            "calories": rawJSON.healthy_item_three_calories
         },
         "healthy_item_four": {
-            "meal": items.healthy_item_four_meal,
-            "keto": items.healthy_item_four_keto,
-            "paleo": items.healthy_item_four_paleo,
-            "gf": items.healthy_item_four_gf,
-            "fats": items.healthy_item_four_fat,
-            "protein": items.healthy_item_four_protein,
-            "carbs": items.healthy_item_four_carbs,
-            "calories": items.healthy_item_four_calories
+            "meal": rawJSON.healthy_item_four_meal,
+            "keto": rawJSON.healthy_item_four_keto,
+            "paleo": rawJSON.healthy_item_four_paleo,
+            "gf": rawJSON.healthy_item_four_gf,
+            "fats": rawJSON.healthy_item_four_fat,
+            "protein": rawJSON.healthy_item_four_protein,
+            "carbs": rawJSON.healthy_item_four_carbs,
+            "calories": rawJSON.healthy_item_four_calories
         },
         "healthy_item_five": {
-            "meal": items.healthy_item_five_meal,
-            "keto": items.healthy_item_five_keto,
-            "paleo": items.healthy_item_five_paleo,
-            "gf": items.healthy_item_five_gf,
-            "fats": items.healthy_item_five_fat,
-            "protein": items.healthy_item_five_protein,
-            "carbs": items.healthy_item_five_carbs,
-            "calories": items.healthy_item_five_calories
+            "meal": rawJSON.healthy_item_five_meal,
+            "keto": rawJSON.healthy_item_five_keto,
+            "paleo": rawJSON.healthy_item_five_paleo,
+            "gf": rawJSON.healthy_item_five_gf,
+            "fats": rawJSON.healthy_item_five_fat,
+            "protein": rawJSON.healthy_item_five_protein,
+            "carbs": rawJSON.healthy_item_five_carbs,
+            "calories": rawJSON.healthy_item_five_calories
         }
     }
 
-    healthy_menu = JSON.stringify(healthy_menu);
+    helpers.store_date(date);
+    helpers.store_entrees(entrees);
+    helpers.store_sides(sides);
+    helpers.store_healthy(healthy);
 
-    helpers.save(json.getPathToFile("health.json"), healthy_menu, () => {
-        res.redirect(url + port + "/admin")
-    })
-})
+    res.redirect("/admin");
+}) 
 
 app.listen(port, () => {
     console.log("Running app at " + url + port)
