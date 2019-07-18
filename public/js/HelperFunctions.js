@@ -110,7 +110,7 @@ function log_use() {
             logs[key] = 1;
         }
 
-        fs.writeFile("./json/use_logs.json", JSON.stringify(logs), (err) => {
+        save(getPathToFile("use_logs.json"), JSON.stringify(logs), (err) => {
             if (err) {
                 console.log(err)
                 throw err;
