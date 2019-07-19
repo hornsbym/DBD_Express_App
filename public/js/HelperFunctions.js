@@ -103,6 +103,10 @@ function create_log_key(date) {
     return date_string + "-" + DOW
 }
 
+function create_date_input_string(dateJSON) {
+    return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
+}
+
 function get_daily_views(dateObj, logJSON) {
     var today = create_log_key(dateObj);
 
@@ -278,6 +282,7 @@ module.exports = {
     create_specifications: create_specifications,
     create_checkboxes: create_checkboxes,
     create_display_date: create_display_date,
+    create_date_input_string : create_date_input_string,
     convert_number_to_month: convert_number_to_month,
     store_date: store_date,
     store_entrees: store_entrees,
