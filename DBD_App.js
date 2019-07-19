@@ -110,7 +110,6 @@ app.get("/admin", (req, res) => {
         json.download_meal_data((meal_data) => {
 
             var check_boxes = helpers.create_checkboxes(meal_data.health);
-            var date_string = helpers.create_display_date(meal_data.date);
             var date_input_string = helpers.create_date_input_string(meal_data.date);
     
             res.render("admin", {
@@ -184,10 +183,10 @@ app.get("/scheduleUpdate", (req, res) => {
     if (req.session.valid === true) {
         json.download_meal_data((meal_data) => {
             var check_boxes = helpers.create_checkboxes(meal_data.health);
-            var date_string = helpers.create_display_date(meal_data.date);
+            var date_input_string = helpers.create_date_input_string(meal_data.date);
     
             res.render("scheduleUpdate", {
-                date : date_string,
+                date : date_input_string,
     
                 sideOne: meal_data.sides.sideOne,
                 sideTwo: meal_data.sides.sideTwo,
