@@ -1,0 +1,20 @@
+html
+    head
+        title="Admin Dashboard"
+        link(rel="stylesheet", href="/static/css/adminStyles.css")
+    body
+        div.headingContainer
+            header
+                h1="Administrator Dashboard"
+            h3="Website traffic report" 
+                h4="Today: " + daily_uses
+                h4="This week: " + weekly_uses
+                h4="All time: " + total_uses
+        section
+            table
+                tr
+                    td
+                        a(href="/admin")="Update current menu"
+                //- tr
+                //-     td
+                        //- a(href="/scheduleUpdate")="Schedule a future update"

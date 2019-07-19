@@ -1,6 +1,6 @@
 html
     head
-        title="Menu Updater"
+        title="Update Scheduler"
         link(rel="stylesheet", href="/static/css/adminStyles.css")
     body
         div.formContainer
@@ -8,7 +8,13 @@ html
                 table
                     tr
                         th
-                            label(for="date")="Displayed date "
+                            label(for="scheduleDate")="Update on"
+                        td
+                            input(id="scheduleDate" name="scheduleDate" type="date")
+                table
+                    tr
+                        th
+                            label(for="date")="Display date "
                         td
                             input(id="date" name="date" type="date" value=date)
                 table

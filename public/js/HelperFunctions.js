@@ -82,23 +82,113 @@ function convert_number_to_month(num) {
     return months[num]
 }
 
+function create_display_date(dateJSON) {
+    return convert_number_to_month(dateJSON.month) + ", " + String(dateJSON.day)
+}
+
 function create_date_string(dateJSON) {
-    return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
+    return String(dateJSON.month + "-" + dateJSON.day + "-" + dateJSON.year);
+}
+
+function create_log_key(date) {
+    var days = ["Sun", "Mon", "Tues", "Weds", "Thu", "Fri", "Sat"]
+
+    var date_string = create_date_string({
+        day: date.getDate(),
+        month: date.getMonth(),
+        year: date.getFullYear()
+    });
+    var DOW = days[date.getDay()]
+
+    return date_string + "-" + DOW
+}
+
+function get_daily_views(dateObj, logJSON) {
+    var today = create_log_key(dateObj);
+
+    if (logJSON[today]) {
+        return logJSON[today]
+    } else {
+        return 0
+    }
+}
+
+function get_weekly_views(dateObj, logJSON) {
+    var weekly_total = 0;
+
+    var day = dateObj.getDay();
+    
+    // If it's Sunday...
+    if (day === 0) {
+        // Return the day's total
+        weekly_total = get_daily_views(dateObj, logJSON)
+    } 
+    // If it's not sunday...
+    else {
+        var i;
+        for(i = day; i >= 0; i--) {
+            var previous_date_obj = new Date;
+            previous_date_obj.setDate((dateObj.getDate() - i));
+
+            var prev_daily = get_daily_views(previous_date_obj, logJSON);
+
+            if (prev_daily) {
+                weekly_total += prev_daily;
+            }
+        }
+    }
+
+    return weekly_total
+}
+
+function get_total_views(logJSON) {
+    var sum = 0;
+
+    for (log in logJSON) {
+        sum += logJSON[log];
+    }
+
+    return sum;
+}
+
+function get_log_stats(callback) {
+    read(getPathToFile("use_logs.json"), (log_data) => {
+        var log_stats = {
+            daily: -1,
+            weekly: -1,
+            total: -1,
+        }
+
+        try {
+            var dailyViews, weeklyViews, totalViews = 0;
+
+            var logs = JSON.parse(log_data);
+
+            var today = new Date();
+
+            dailyViews = get_daily_views(today, logs);
+            weeklyViews = get_weekly_views(today, logs)
+            totalViews = get_total_views(logs)
+
+            log_stats = {
+                daily: dailyViews,
+                weekly: weeklyViews,
+                total: totalViews,
+            }
+
+        } catch (e) {
+            console.log(e)
+        } finally {
+            callback(log_stats)
+        }
+    })
 }
 
 function log_use() {
-    var days = ["Sun", "Mon", "Tues", "Weds", "Thu", "Fri", "Sat"]
-
     // Tracks how many users access the website per day
     var date = new Date();
 
-    var day = days[date.getDay()]
-    var dd = String(date.getDate());
-    var mm = String(date.getMonth());
-    var yyyy = String(date.getFullYear());
-
-
-    var key = mm + "-" + dd + "-" + yyyy  + "-" + day;
+    var key = create_log_key(date);
 
     read(getPathToFile("use_logs.json"), (data) => {
         // Gets the logs we already have:
@@ -187,10 +277,11 @@ module.exports = {
     getPathToFile: getPathToFile,
     create_specifications: create_specifications,
     create_checkboxes: create_checkboxes,
-    create_date_string: create_date_string,
+    create_display_date: create_display_date,
     convert_number_to_month: convert_number_to_month,
     store_date: store_date,
     store_entrees: store_entrees,
     store_sides: store_sides,
-    store_healthy: store_healthy
+    store_healthy: store_healthy,
+    get_log_stats: get_log_stats
 }
