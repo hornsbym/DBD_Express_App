@@ -107,6 +107,18 @@ function create_date_input_string(dateJSON) {
     return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
 }
 
+function create_date_json(dateString) {
+    var date = dateString.split("-");
+
+    var newDate = {
+        day: date[2],
+        month: date[1],
+        year: date[0]
+    }
+
+    return newDate
+}
+
 function get_daily_views(dateObj, logJSON) {
     var today = create_log_key(dateObj);
 
@@ -153,6 +165,30 @@ function get_total_views(logJSON) {
     }
 
     return sum;
+}
+
+function get_scheduled_updates(callback) {
+    read(getPathToFile("scheduled_updates.json"), (updates) => {
+        callback(updates);
+    })
+}
+
+function schedule_update(dateJSON, menuInfoJSON) {
+    get_scheduled_updates((updates) => {
+        var updates = JSON.parse(updates)
+
+        var date = new Date(Number(dateJSON.year), Number(dateJSON.month), Number(dateJSON.day))
+        
+        var update = {
+            update_on: create_log_key(date),
+            menu_date: menuInfoJSON
+        }
+
+        updates.update_list.push(update);
+
+        save(getPathToFile("scheduled_updates.json"), JSON.stringify(updates), () => {
+        })
+    })
 }
 
 function get_log_stats(callback) {
@@ -216,6 +252,11 @@ function log_use() {
 function save(file_location, JSON_string, callback) {
     // Stores the provided JSON data in the specified location.
     // Then, executes the callback.
+    var JSON_string = JSON_string;
+
+    if (typeof JSON_string === "object") {
+        JSON_string = JSON.stringify(JSON_string)
+    }
 
     fs.writeFile(file_location, JSON_string, (err) => {
         if (err) {
@@ -238,14 +279,8 @@ function read(file_location, callback) {
     })
 }
 
-function store_date(dateJSON) {
-    var date = dateJSON.date.split("-");
-
-    var newDate = {
-        day: date[2],
-        month: date[1],
-        year: date[0]
-    }
+function store_date(dateString) {
+    var newDate = create_date_json(dateString);
 
     save(getPathToFile("date.json"), JSON.stringify(newDate), () => {
     })
@@ -283,6 +318,8 @@ module.exports = {
     create_checkboxes: create_checkboxes,
     create_display_date: create_display_date,
     create_date_input_string : create_date_input_string,
+    create_date_json: create_date_json,
+    schedule_update: schedule_update,
     convert_number_to_month: convert_number_to_month,
     store_date: store_date,
     store_entrees: store_entrees,

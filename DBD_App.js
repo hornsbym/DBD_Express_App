@@ -270,9 +270,7 @@ app.post("/verifyUser", (req, res) => {
 app.post("/submitChanges", (req, res) => {
     var rawJSON = req.body;
 
-    var date = {
-        date : rawJSON.date
-    }
+    var date = rawJSON.date;
 
     var entrees = {
         monday: rawJSON.monday,
@@ -350,6 +348,17 @@ app.post("/submitChanges", (req, res) => {
 
     res.redirect("/admin");
 }) 
+
+app.post("/scheduleUpdate", (req, res) => {
+    var rawJSON = req.body;
+
+    var scheduleDate = helpers.create_date_json(rawJSON.scheduleDate);
+
+
+    helpers.schedule_update(scheduleDate, rawJSON)
+    
+    res.redirect("dashboard")
+})
 
 app.listen(port, () => {
     console.log("Running app at " + url + port)
