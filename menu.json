@@ -1,0 +1,58 @@
+{
+    "monday":{
+        "meal":"Southwest Stuffed Peppers w/ Shredded Chicken and Black Beans",
+        "gf":true,
+        "carbs":21,
+        "fats":9,
+        "proteins":42,
+        "calories":350
+    },
+    "tuesday":{
+        "meal":"Dijon Glazed Pork w/ Green Beans and Sweet Potatoes",
+        "gf":true,
+        "carbs":19,
+        "fats":13,
+        "proteins":41,
+        "calories":350
+    },
+    "wednesday":{
+        "meal":"Black Pepper Beef and Cabbage w/ Lo Mein and Veggies",
+        "gf":false,
+        "carbs":22,
+        "fats":12,
+        "proteins":42,
+        "calories":375
+    },
+    "thursday":{
+        "meal":"Grilled Salmon w/ Lemon Butter, Asparagus, and Roasted Potatoes",
+        "gf":true,
+        "carbs":22,
+        "fats":15,
+        "proteins":38,
+        "calories":375
+    },
+    "friday":{
+        "meal":"Shredded Pork Carnitas Bowl w/ Brown Rice and Salsa Verde",
+        "gf":true,
+        "carbs":24,
+        "fats":11,
+        "proteins":38,
+        "calories":350
+    },
+    "saturday":{
+        "meal":"Thai Chicken Satay w/ Peanut Sauce and Grilled Veggies",
+        "gf":false,
+        "carbs":19,
+        "fats":15,
+        "proteins":40,
+        "calories":365
+    },
+    "sunday":{
+        "meal":"Garlic Butter Meatballs w/ Zoodles and Roasted Tomato",
+        "gf":false,
+        "carbs":12,
+        "fats":8,
+        "proteins":42,
+        "calories":325
+    }
+}
