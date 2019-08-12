@@ -1,322 +1,63 @@
+// Pulls in environmental variables:
 require('dotenv').config();
+
+// Allows for more accurate path manipulation:
 var path = require("path");
 
+// Pulls in auxillary functions:
 var helpers = require("./public/js/HelperFunctions.js")
 var json = require("./public/js/GetMenus.js");
 
+// Imports Express, the backbone of the app:
 var express = require("express");
+
+// Imports middleware for easy session authentication:
 var session = require("express-session");
+
+// Creates the app itself:
 var app = express();
 
+// Applies session middleware:
 app.use(session({ secret: process.env.COOKIE_KEY }))
+
+// Tells the app how to decode certain communication protocols:
 app.use(express.json());
 app.use(express.urlencoded());
 
+// Allows the app access to the build folder, where the compiled
+// React files will be waiting to be served:
 app.use(express.static(path.join(__dirname, "build")));
 
+// Convenience variable definition:
 var port = process.env.PORT;
 var url = process.env.URL;
 
-app.get("/", (req, res) => {
-    try {
-        helpers.log_use()
-    } catch (e) {
-        console.log("*** Error logging use ***")
-        console.log(e)
-    }
+// Pulls in routers:
+var indexRouter = require("./routes/website/index")
+var getMenuRouter = require("./routes/website/getMenu")
+var loginRouter = require("./routes/admin/login")
+var dashboardRouter = require("./routes/admin/dashboard")
+var adminRouter = require("./routes/admin/admin")
+var scheduleUpdateRouter = require("./routes/admin/scheduleUpdate")
+var verifyUserRouter = require("./routes/admin/verifyUser")
+var submitChangesRouter = require("./routes/admin/submitChanges")
 
-    res.render("index", {testmsg: "Hello"})
+// Applies routers to the App:
+app.use("/", indexRouter)
+app.use("/getMenu", getMenuRouter)
 
-})
+//// The routes below need to be properly implemented:
+//
+// app.use("/login", loginRouter)
+// app.use("/dashboard", dashboardRouter)
+// app.use("/admin", adminRouter)
+// app.use("/scheduleUpdate", scheduleUpdateRouter)
+// app.use("/verifyUser", verifyUserRouter)
+// app.use("/submitChanges", submitChangesRouter)
+//
+////
 
-app.get("/getMenu", (req, res) => {
-    json.download_meal_data((menu_data) => {
-
-        console.log("Sending data:", menu_data)
-
-        res.send(menu_data)
-    });
-})
-
-// Sends the user to the login page
-app.get("/login", (req, res) => {
-    var errorMessage = req.session.loginError;
-    req.session.valid = false;
-
-    res.render("login")
-    //  {
-    //     errorMessage: errorMessage
-    // })
-})
-
-app.get("/dashboard", (req, res) => {
-    helpers.get_log_stats((log_data) => {
-        if (req.session.valid) {
-            res.render("dashboard", {
-                daily_uses: log_data.daily,
-                weekly_uses: log_data.weekly,
-                total_uses: log_data.total
-            })
-        } else {
-            res.redirect("login")
-        }
-    });
-})
-
-app.get("/admin", (req, res) => {
-    if (req.session.valid === true) {
-        json.download_meal_data((meal_data) => {
-
-            var check_boxes = helpers.create_checkboxes(meal_data.health);
-            var date_input_string = helpers.create_date_input_string(meal_data.date);
-
-            res.render("admin", {
-                date: date_input_string,
-
-                sideOne: meal_data.sides.sideOne,
-                sideTwo: meal_data.sides.sideTwo,
-                sideThree: meal_data.sides.sideThree,
-
-                monday: meal_data.entrees.monday,
-                tuesday: meal_data.entrees.tuesday,
-                wednesday: meal_data.entrees.wednesday,
-                thursday: meal_data.entrees.thursday,
-                friday: meal_data.entrees.friday,
-                saturday: meal_data.entrees.saturday,
-                sunday: meal_data.entrees.sunday,
-
-                h1_meal: meal_data.health.healthy_item_one.meal,
-                h1_keto: check_boxes.healthy_item_one.keto,
-                h1_paleo: check_boxes.healthy_item_one.paleo,
-                h1_gf: check_boxes.healthy_item_one.gf,
-                h1_fat: meal_data.health.healthy_item_one.fats,
-                h1_carbs: meal_data.health.healthy_item_one.carbs,
-                h1_protein: meal_data.health.healthy_item_one.protein,
-                h1_calories: meal_data.health.healthy_item_one.calories,
-
-                h2_meal: meal_data.health.healthy_item_two.meal,
-                h2_keto: check_boxes.healthy_item_two.keto,
-                h2_paleo: check_boxes.healthy_item_two.paleo,
-                h2_gf: check_boxes.healthy_item_two.gf,
-                h2_fat: meal_data.health.healthy_item_two.fats,
-                h2_carbs: meal_data.health.healthy_item_two.carbs,
-                h2_protein: meal_data.health.healthy_item_two.protein,
-                h2_calories: meal_data.health.healthy_item_two.calories,
-
-                h3_meal: meal_data.health.healthy_item_three.meal,
-                h3_keto: check_boxes.healthy_item_three.keto,
-                h3_paleo: check_boxes.healthy_item_three.paleo,
-                h3_gf: check_boxes.healthy_item_three.gf,
-                h3_fat: meal_data.health.healthy_item_three.fats,
-                h3_carbs: meal_data.health.healthy_item_three.carbs,
-                h3_protein: meal_data.health.healthy_item_three.protein,
-                h3_calories: meal_data.health.healthy_item_three.calories,
-
-                h4_meal: meal_data.health.healthy_item_four.meal,
-                h4_keto: check_boxes.healthy_item_four.keto,
-                h4_paleo: check_boxes.healthy_item_four.paleo,
-                h4_gf: check_boxes.healthy_item_four.gf,
-                h4_fat: meal_data.health.healthy_item_four.fats,
-                h4_carbs: meal_data.health.healthy_item_four.carbs,
-                h4_protein: meal_data.health.healthy_item_four.protein,
-                h4_calories: meal_data.health.healthy_item_four.calories,
-
-                h5_meal: meal_data.health.healthy_item_five.meal,
-                h5_keto: check_boxes.healthy_item_five.keto,
-                h5_paleo: check_boxes.healthy_item_five.paleo,
-                h5_gf: check_boxes.healthy_item_five.gf,
-                h5_fat: meal_data.health.healthy_item_five.fats,
-                h5_carbs: meal_data.health.healthy_item_five.carbs,
-                h5_protein: meal_data.health.healthy_item_five.protein,
-                h5_calories: meal_data.health.healthy_item_five.calories
-            })
-        });
-    } else {
-        res.redirect("login")
-    }
-})
-
-app.get("/scheduleUpdate", (req, res) => {
-    if (req.session.valid === true) {
-        json.download_meal_data((meal_data) => {
-            var check_boxes = helpers.create_checkboxes(meal_data.health);
-            var date_input_string = helpers.create_date_input_string(meal_data.date);
-
-            res.render("scheduleUpdate", {
-                date: date_input_string,
-
-                sideOne: meal_data.sides.sideOne,
-                sideTwo: meal_data.sides.sideTwo,
-                sideThree: meal_data.sides.sideThree,
-
-                monday: meal_data.entrees.monday,
-                tuesday: meal_data.entrees.tuesday,
-                wednesday: meal_data.entrees.wednesday,
-                thursday: meal_data.entrees.thursday,
-                friday: meal_data.entrees.friday,
-                saturday: meal_data.entrees.saturday,
-                sunday: meal_data.entrees.sunday,
-
-                h1_meal: meal_data.health.healthy_item_one.meal,
-                h1_keto: check_boxes.healthy_item_one.keto,
-                h1_paleo: check_boxes.healthy_item_one.paleo,
-                h1_gf: check_boxes.healthy_item_one.gf,
-                h1_fat: meal_data.health.healthy_item_one.fats,
-                h1_carbs: meal_data.health.healthy_item_one.carbs,
-                h1_protein: meal_data.health.healthy_item_one.protein,
-                h1_calories: meal_data.health.healthy_item_one.calories,
-
-                h2_meal: meal_data.health.healthy_item_two.meal,
-                h2_keto: check_boxes.healthy_item_two.keto,
-                h2_paleo: check_boxes.healthy_item_two.paleo,
-                h2_gf: check_boxes.healthy_item_two.gf,
-                h2_fat: meal_data.health.healthy_item_two.fats,
-                h2_carbs: meal_data.health.healthy_item_two.carbs,
-                h2_protein: meal_data.health.healthy_item_two.protein,
-                h2_calories: meal_data.health.healthy_item_two.calories,
-
-                h3_meal: meal_data.health.healthy_item_three.meal,
-                h3_keto: check_boxes.healthy_item_three.keto,
-                h3_paleo: check_boxes.healthy_item_three.paleo,
-                h3_gf: check_boxes.healthy_item_three.gf,
-                h3_fat: meal_data.health.healthy_item_three.fats,
-                h3_carbs: meal_data.health.healthy_item_three.carbs,
-                h3_protein: meal_data.health.healthy_item_three.protein,
-                h3_calories: meal_data.health.healthy_item_three.calories,
-
-                h4_meal: meal_data.health.healthy_item_four.meal,
-                h4_keto: check_boxes.healthy_item_four.keto,
-                h4_paleo: check_boxes.healthy_item_four.paleo,
-                h4_gf: check_boxes.healthy_item_four.gf,
-                h4_fat: meal_data.health.healthy_item_four.fats,
-                h4_carbs: meal_data.health.healthy_item_four.carbs,
-                h4_protein: meal_data.health.healthy_item_four.protein,
-                h4_calories: meal_data.health.healthy_item_four.calories,
-
-                h5_meal: meal_data.health.healthy_item_five.meal,
-                h5_keto: check_boxes.healthy_item_five.keto,
-                h5_paleo: check_boxes.healthy_item_five.paleo,
-                h5_gf: check_boxes.healthy_item_five.gf,
-                h5_fat: meal_data.health.healthy_item_five.fats,
-                h5_carbs: meal_data.health.healthy_item_five.carbs,
-                h5_protein: meal_data.health.healthy_item_five.protein,
-                h5_calories: meal_data.health.healthy_item_five.calories
-            })
-        });
-    } else {
-        res.redirect("login")
-    }
-
-})
-
-// Verifies the user
-app.post("/verifyUser", (req, res) => {
-    var username = req.body.username;
-    var password = req.body.password;
-
-    if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
-        req.session.valid = true;
-        res.redirect("/dashboard");
-    } else {
-        req.session.loginError = "Check credentials and try again."
-        res.redirect("/login");
-    }
-})
-
-// Saves all changes to the appropriate classes:
-app.post("/submitChanges", (req, res) => {
-    var rawJSON = req.body;
-
-    var date = rawJSON.date;
-
-    var entrees = {
-        monday: rawJSON.monday,
-        tuesday: rawJSON.tuesday,
-        wednesday: rawJSON.wednesday,
-        thursday: rawJSON.thursday,
-        friday: rawJSON.friday,
-        saturday: rawJSON.saturday,
-        sunday: rawJSON.sunday
-    }
-
-    var sides = {
-        sideOne: rawJSON.sideOne,
-        sideTwo: rawJSON.sideTwo,
-        sideThree: rawJSON.sideThree
-    }
-
-    var healthy = {
-        "healthy_item_one": {
-            "meal": rawJSON.healthy_item_one_meal,
-            "keto": rawJSON.healthy_item_one_keto,
-            "paleo": rawJSON.healthy_item_one_paleo,
-            "gf": rawJSON.healthy_item_one_gf,
-            "fats": rawJSON.healthy_item_one_fat,
-            "protein": rawJSON.healthy_item_one_protein,
-            "carbs": rawJSON.healthy_item_one_carbs,
-            "calories": rawJSON.healthy_item_one_calories
-        },
-        "healthy_item_two": {
-            "meal": rawJSON.healthy_item_two_meal,
-            "keto": rawJSON.healthy_item_two_keto,
-            "paleo": rawJSON.healthy_item_two_paleo,
-            "gf": rawJSON.healthy_item_two_gf,
-            "fats": rawJSON.healthy_item_two_fat,
-            "protein": rawJSON.healthy_item_two_protein,
-            "carbs": rawJSON.healthy_item_two_carbs,
-            "calories": rawJSON.healthy_item_two_calories
-        },
-        "healthy_item_three": {
-            "meal": rawJSON.healthy_item_three_meal,
-            "keto": rawJSON.healthy_item_three_keto,
-            "paleo": rawJSON.healthy_item_three_paleo,
-            "gf": rawJSON.healthy_item_three_gf,
-            "fats": rawJSON.healthy_item_three_fat,
-            "protein": rawJSON.healthy_item_three_protein,
-            "carbs": rawJSON.healthy_item_three_carbs,
-            "calories": rawJSON.healthy_item_three_calories
-        },
-        "healthy_item_four": {
-            "meal": rawJSON.healthy_item_four_meal,
-            "keto": rawJSON.healthy_item_four_keto,
-            "paleo": rawJSON.healthy_item_four_paleo,
-            "gf": rawJSON.healthy_item_four_gf,
-            "fats": rawJSON.healthy_item_four_fat,
-            "protein": rawJSON.healthy_item_four_protein,
-            "carbs": rawJSON.healthy_item_four_carbs,
-            "calories": rawJSON.healthy_item_four_calories
-        },
-        "healthy_item_five": {
-            "meal": rawJSON.healthy_item_five_meal,
-            "keto": rawJSON.healthy_item_five_keto,
-            "paleo": rawJSON.healthy_item_five_paleo,
-            "gf": rawJSON.healthy_item_five_gf,
-            "fats": rawJSON.healthy_item_five_fat,
-            "protein": rawJSON.healthy_item_five_protein,
-            "carbs": rawJSON.healthy_item_five_carbs,
-            "calories": rawJSON.healthy_item_five_calories
-        }
-    }
-
-    helpers.store_date(date);
-    helpers.store_entrees(entrees);
-    helpers.store_sides(sides);
-    helpers.store_healthy(healthy);
-
-    res.redirect("/admin");
-})
-
-app.post("/scheduleUpdate", (req, res) => {
-    var rawJSON = req.body;
-
-    var scheduleDate = helpers.create_date_json(rawJSON.scheduleDate);
-
-
-    helpers.schedule_update(scheduleDate, rawJSON)
-
-    res.redirect("dashboard")
-})
-
+// Spin up the app and start listening:
 app.listen(port, () => {
-    console.log("Running app at " + url + port)
+    console.log("Running app at " + url + ":" + port)
 });
