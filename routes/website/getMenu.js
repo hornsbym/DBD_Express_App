@@ -8,7 +8,7 @@ var router = express.Router()
 var jsonHelpers = require("../../public/js/GetMenus")
 
 // Define route behavior:
-router.get("/", (req, res, next) => {
+router.get("/getMenu", (req, res, next) => {
     jsonHelpers.download_meal_data((menu_data) => {
 
         res.send(menu_data)

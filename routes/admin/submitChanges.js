@@ -6,90 +6,75 @@ var router = express.Router()
 
 // Pulls in auxillary functions:
 var helpers = require("../../public/js/HelperFunctions.js")
-var json = require("../../public/js/GetMenus.js")
 
-///// THIS ROUTE DOES NOT CURRENTLY WORK /////
 // Define router behavior:
-router.get("/", (req, res, next) => {
-    var rawJSON = req.body;
+router.post("/", (req, res, next) => {
+    var menu_data = req.body;
 
-    var date = rawJSON.date;
-
-    var entrees = {
-        monday: rawJSON.monday,
-        tuesday: rawJSON.tuesday,
-        wednesday: rawJSON.wednesday,
-        thursday: rawJSON.thursday,
-        friday: rawJSON.friday,
-        saturday: rawJSON.saturday,
-        sunday: rawJSON.sunday
-    }
-
-    var sides = {
-        sideOne: rawJSON.sideOne,
-        sideTwo: rawJSON.sideTwo,
-        sideThree: rawJSON.sideThree
-    }
-
-    var healthy = {
-        "healthy_item_one": {
-            "meal": rawJSON.healthy_item_one_meal,
-            "keto": rawJSON.healthy_item_one_keto,
-            "paleo": rawJSON.healthy_item_one_paleo,
-            "gf": rawJSON.healthy_item_one_gf,
-            "fats": rawJSON.healthy_item_one_fat,
-            "protein": rawJSON.healthy_item_one_protein,
-            "carbs": rawJSON.healthy_item_one_carbs,
-            "calories": rawJSON.healthy_item_one_calories
+    // Parses through the raw form data and creates a hierarchical JSON object representing a menu.
+    var menu = {
+        "monday":{
+            "meal": menu_data.monday_meal,
+            "gf": menu_data.monday_gf ? true : false,  // If there's a gluten-free property in the JSON data, save it as true. If not, save it as false.
+            "carbs": menu_data.monday_carbs,           // That way, there's always a GF value on record.
+            "fats": menu_data.monday_fat,
+            "proteins": menu_data.monday_protein,
+            "calories": menu_data.monday_calories
         },
-        "healthy_item_two": {
-            "meal": rawJSON.healthy_item_two_meal,
-            "keto": rawJSON.healthy_item_two_keto,
-            "paleo": rawJSON.healthy_item_two_paleo,
-            "gf": rawJSON.healthy_item_two_gf,
-            "fats": rawJSON.healthy_item_two_fat,
-            "protein": rawJSON.healthy_item_two_protein,
-            "carbs": rawJSON.healthy_item_two_carbs,
-            "calories": rawJSON.healthy_item_two_calories
+        "tuesday":{
+            "meal": menu_data.tuesday_meal,
+            "gf": menu_data.tuesday_gf ? true : false,
+            "carbs": menu_data.tuesday_carbs,
+            "fats": menu_data.tuesday_fat,
+            "proteins": menu_data.tuesday_protein,
+            "calories": menu_data.tuesday_calories
         },
-        "healthy_item_three": {
-            "meal": rawJSON.healthy_item_three_meal,
-            "keto": rawJSON.healthy_item_three_keto,
-            "paleo": rawJSON.healthy_item_three_paleo,
-            "gf": rawJSON.healthy_item_three_gf,
-            "fats": rawJSON.healthy_item_three_fat,
-            "protein": rawJSON.healthy_item_three_protein,
-            "carbs": rawJSON.healthy_item_three_carbs,
-            "calories": rawJSON.healthy_item_three_calories
+        "wednesday":{
+            "meal": menu_data.wednesday_meal,
+            "gf": menu_data.wednesday_gf ? true : false,
+            "carbs": menu_data.wednesday_carbs,
+            "fats": menu_data.wednesday_fat,
+            "proteins": menu_data.wednesday_protein,
+            "calories": menu_data.wednesday_calories
         },
-        "healthy_item_four": {
-            "meal": rawJSON.healthy_item_four_meal,
-            "keto": rawJSON.healthy_item_four_keto,
-            "paleo": rawJSON.healthy_item_four_paleo,
-            "gf": rawJSON.healthy_item_four_gf,
-            "fats": rawJSON.healthy_item_four_fat,
-            "protein": rawJSON.healthy_item_four_protein,
-            "carbs": rawJSON.healthy_item_four_carbs,
-            "calories": rawJSON.healthy_item_four_calories
+        "thursday":{
+            "meal": menu_data.thursday_meal,
+            "gf": menu_data.thursday_gf ? true : false,
+            "carbs": menu_data.thursday_carbs,
+            "fats": menu_data.thursday_fat,
+            "proteins": menu_data.thursday_protein,
+            "calories": menu_data.thursday_calories
         },
-        "healthy_item_five": {
-            "meal": rawJSON.healthy_item_five_meal,
-            "keto": rawJSON.healthy_item_five_keto,
-            "paleo": rawJSON.healthy_item_five_paleo,
-            "gf": rawJSON.healthy_item_five_gf,
-            "fats": rawJSON.healthy_item_five_fat,
-            "protein": rawJSON.healthy_item_five_protein,
-            "carbs": rawJSON.healthy_item_five_carbs,
-            "calories": rawJSON.healthy_item_five_calories
+        "friday":{
+            "meal": menu_data.friday_meal,
+            "gf": menu_data.friday_gf ? true : false,
+            "carbs": menu_data.friday_carbs,
+            "fats": menu_data.friday_fat,
+            "proteins": menu_data.friday_protein,
+            "calories": menu_data.friday_calories
+        },
+        "saturday":{
+            "meal": menu_data.saturday_meal,
+            "gf": menu_data.saturday_gf ? true : false,
+            "carbs": menu_data.saturday_carbs,
+            "fats": menu_data.saturday_fat,
+            "proteins": menu_data.saturday_protein,
+            "calories": menu_data.saturday_calories
+        },
+        "sunday":{
+            "meal": menu_data.sunday_meal,
+            "gf": menu_data.sunday_gf ? true : false,
+            "carbs": menu_data.sunday_carbs,
+            "fats": menu_data.sunday_fat,
+            "proteins": menu_data.sunday_protein,
+            "calories": menu_data.sunday_calories
         }
     }
 
-    helpers.store_date(date);
-    helpers.store_entrees(entrees);
-    helpers.store_sides(sides);
-    helpers.store_healthy(healthy);
+    // Stores the new menu object in a JSON file.
+    helpers.store_menu(menu)
 
-    res.redirect("/admin");
+    res.redirect("/dashboard");
 })
 
 module.exports = router

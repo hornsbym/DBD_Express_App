@@ -4,10 +4,6 @@ require('dotenv').config();
 // Allows for more accurate path manipulation:
 var path = require("path");
 
-// Pulls in auxillary functions:
-var helpers = require("./public/js/HelperFunctions.js")
-var json = require("./public/js/GetMenus.js");
-
 // Imports Express, the backbone of the app:
 var express = require("express");
 
@@ -24,16 +20,23 @@ app.use(session({ secret: process.env.COOKIE_KEY }))
 app.use(express.json());
 app.use(express.urlencoded());
 
+// Sets the view engine for admin functions:
+app.set("view engine", "pug")
+
 // Allows the app access to the build folder, where the compiled
 // React files will be waiting to be served:
-app.use(express.static(path.join(__dirname, "build")));
+app.use('/', express.static(path.join(__dirname, "public")))
+app.use('/', express.static(path.join(__dirname, "build")))
 
 // Convenience variable definition:
 var port = process.env.PORT;
 var url = process.env.URL;
 
 // Pulls in routers:
-var indexRouter = require("./routes/website/index")
+app.get("/", (req, res) => {
+    res.render("index")
+})
+
 var getMenuRouter = require("./routes/website/getMenu")
 var loginRouter = require("./routes/admin/login")
 var dashboardRouter = require("./routes/admin/dashboard")
@@ -42,18 +45,19 @@ var scheduleUpdateRouter = require("./routes/admin/scheduleUpdate")
 var verifyUserRouter = require("./routes/admin/verifyUser")
 var submitChangesRouter = require("./routes/admin/submitChanges")
 
-// Applies routers to the App:
-app.use("/", indexRouter)
-app.use("/getMenu", getMenuRouter)
+
+// Applies routers to the App.
+//// These routes are used for the public portion of the website:
+app.use("/", getMenuRouter)
 
 //// The routes below need to be properly implemented:
 //
-// app.use("/login", loginRouter)
-// app.use("/dashboard", dashboardRouter)
-// app.use("/admin", adminRouter)
+app.use("/admin", adminRouter)
+app.use("/dashboard", dashboardRouter)
 // app.use("/scheduleUpdate", scheduleUpdateRouter)
-// app.use("/verifyUser", verifyUserRouter)
-// app.use("/submitChanges", submitChangesRouter)
+app.use("/login", loginRouter)
+app.use("/verifyUser", verifyUserRouter)
+app.use("/submitChanges", submitChangesRouter)
 //
 ////
 

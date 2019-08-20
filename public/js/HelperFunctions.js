@@ -8,56 +8,6 @@ function getPathToFile(fileName) {
     return path.join(jsonDir, fileName)
 }
 
-function create_checkboxes(allHealthItemsJSON) {
-    var healthy = allHealthItemsJSON;
-
-    var check_boxes = {
-        healthy_item_one: {
-            keto: false,
-            paleo: false,
-            gf: false
-        },
-        healthy_item_two: {
-            keto: false,
-            paleo: false,
-            gf: false
-        },
-        healthy_item_three: {
-            keto: false,
-            paleo: false,
-            gf: false
-        },
-        healthy_item_four: {
-            keto: false,
-            paleo: false,
-            gf: false
-        },
-        healthy_item_five: {
-            keto: false,
-            paleo: false,
-            gf: false
-        },
-    };
-
-    for (var item in healthy) {
-        if (healthy.hasOwnProperty(item)) {
-            var item_object = healthy[item];
-
-            if (item_object.keto) {
-                check_boxes[item].keto = true
-            }
-            if (item_object.paleo) {
-                check_boxes[item].paleo = true
-            }
-            if (item_object.gf) {
-                check_boxes[item].gf = true
-            }
-        }
-    }
-
-    return check_boxes;
-}
-
 function create_specifications(healthItemJSON) {
     var return_string = "";
 
@@ -279,33 +229,15 @@ function read(file_location, callback) {
     })
 }
 
-function store_date(dateString) {
-    var newDate = create_date_json(dateString);
+/**
+ * Recieves a JSON object representing the week's menu.
+ * Stores that object in "/json/menu.json".
+ * @param {*} menuJSON 
+ */
+function store_menu(menuJSON) {
+    var entrees = JSON.stringify(menuJSON)
 
-    save(getPathToFile("date.json"), JSON.stringify(newDate), () => {
-    })
-}
-
-function store_entrees(entreesJSON) {
-    var entrees = JSON.stringify(entreesJSON)
-
-    save(getPathToFile("entrees.json"), entrees, () => {
-    })
-}
-
-function store_sides(sidesJSON) {
-    // Determines what gets stored in the JSON file:
-    var sides = JSON.stringify(sidesJSON);
-
-    // Writes to the appropriate JSON file:
-    save(getPathToFile("sides.json"), sides, () => {
-    })
-}
-
-function store_healthy(healthyJSON) {
-    var healthy = JSON.stringify(healthyJSON);
-
-    save(getPathToFile("health.json"), healthy, () => {
+    save(getPathToFile("menu.json"), entrees, () => {
     })
 }
 
@@ -315,15 +247,11 @@ module.exports = {
     log_use: log_use,
     getPathToFile: getPathToFile,
     create_specifications: create_specifications,
-    create_checkboxes: create_checkboxes,
     create_display_date: create_display_date,
     create_date_input_string : create_date_input_string,
     create_date_json: create_date_json,
     schedule_update: schedule_update,
     convert_number_to_month: convert_number_to_month,
-    store_date: store_date,
-    store_entrees: store_entrees,
-    store_sides: store_sides,
-    store_healthy: store_healthy,
+    store_menu: store_menu,
     get_log_stats: get_log_stats
 }

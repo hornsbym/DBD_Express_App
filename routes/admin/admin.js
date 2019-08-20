@@ -5,77 +5,64 @@ var express = require('express')
 var router = express.Router()
 
 // Pulls in auxillary functions:
-var helpers = require("../../public/js/HelperFunctions.js")
 var json = require("../../public/js/GetMenus.js")
 
-///// THIS ROUTE DOES NOT CURRENTLY WORK /////
 // Define router behavior:
 router.get("/", (req, res, next) => {
     if (req.session.valid === true) {
         json.download_meal_data((meal_data) => {
 
-            var check_boxes = helpers.create_checkboxes(meal_data.health);
-            var date_input_string = helpers.create_date_input_string(meal_data.date);
+            var entrees = meal_data.entrees
 
             res.render("admin", {
-                date: date_input_string,
+                monday_meal: entrees.monday.meal,
+                monday_gf: entrees.monday.gf,
+                monday_fat: entrees.monday.fats,
+                monday_carbs: entrees.monday.carbs,
+                monday_protein: entrees.monday.proteins,
+                monday_calories: entrees.monday.calories,
 
-                sideOne: meal_data.sides.sideOne,
-                sideTwo: meal_data.sides.sideTwo,
-                sideThree: meal_data.sides.sideThree,
+                tuesday_meal: entrees.tuesday.meal,
+                tuesday_gf: entrees.tuesday.gf,
+                tuesday_fat: entrees.tuesday.fats,
+                tuesday_carbs: entrees.tuesday.carbs,
+                tuesday_protein: entrees.tuesday.proteins,
+                tuesday_calories: entrees.tuesday.calories,
 
-                monday: meal_data.entrees.monday,
-                tuesday: meal_data.entrees.tuesday,
-                wednesday: meal_data.entrees.wednesday,
-                thursday: meal_data.entrees.thursday,
-                friday: meal_data.entrees.friday,
-                saturday: meal_data.entrees.saturday,
-                sunday: meal_data.entrees.sunday,
+                wednesday_meal: entrees.wednesday.meal,
+                wednesday_gf: entrees.wednesday.gf,
+                wednesday_fat: entrees.wednesday.fats,
+                wednesday_carbs: entrees.wednesday.carbs,
+                wednesday_protein: entrees.wednesday.proteins,
+                wednesday_calories: entrees.wednesday.calories,
 
-                h1_meal: meal_data.health.healthy_item_one.meal,
-                h1_keto: check_boxes.healthy_item_one.keto,
-                h1_paleo: check_boxes.healthy_item_one.paleo,
-                h1_gf: check_boxes.healthy_item_one.gf,
-                h1_fat: meal_data.health.healthy_item_one.fats,
-                h1_carbs: meal_data.health.healthy_item_one.carbs,
-                h1_protein: meal_data.health.healthy_item_one.protein,
-                h1_calories: meal_data.health.healthy_item_one.calories,
+                thursday_meal: entrees.thursday.meal,
+                thursday_gf: entrees.thursday.gf,
+                thursday_fat: entrees.thursday.fats,
+                thursday_carbs: entrees.thursday.carbs,
+                thursday_protein: entrees.thursday.proteins,
+                thursday_calories: entrees.thursday.calories,
 
-                h2_meal: meal_data.health.healthy_item_two.meal,
-                h2_keto: check_boxes.healthy_item_two.keto,
-                h2_paleo: check_boxes.healthy_item_two.paleo,
-                h2_gf: check_boxes.healthy_item_two.gf,
-                h2_fat: meal_data.health.healthy_item_two.fats,
-                h2_carbs: meal_data.health.healthy_item_two.carbs,
-                h2_protein: meal_data.health.healthy_item_two.protein,
-                h2_calories: meal_data.health.healthy_item_two.calories,
+                friday_meal: entrees.friday.meal,
+                friday_gf: entrees.friday.gf,
+                friday_fat: entrees.friday.fats,
+                friday_carbs: entrees.friday.carbs,
+                friday_protein: entrees.friday.proteins,
+                friday_calories: entrees.friday.calories,
 
-                h3_meal: meal_data.health.healthy_item_three.meal,
-                h3_keto: check_boxes.healthy_item_three.keto,
-                h3_paleo: check_boxes.healthy_item_three.paleo,
-                h3_gf: check_boxes.healthy_item_three.gf,
-                h3_fat: meal_data.health.healthy_item_three.fats,
-                h3_carbs: meal_data.health.healthy_item_three.carbs,
-                h3_protein: meal_data.health.healthy_item_three.protein,
-                h3_calories: meal_data.health.healthy_item_three.calories,
+                saturday_meal: entrees.saturday.meal,
+                saturday_gf: entrees.saturday.gf,
+                saturday_fat: entrees.saturday.fats,
+                saturday_carbs: entrees.saturday.carbs,
+                saturday_protein: entrees.saturday.proteins,
+                saturday_calories: entrees.saturday.calories,
 
-                h4_meal: meal_data.health.healthy_item_four.meal,
-                h4_keto: check_boxes.healthy_item_four.keto,
-                h4_paleo: check_boxes.healthy_item_four.paleo,
-                h4_gf: check_boxes.healthy_item_four.gf,
-                h4_fat: meal_data.health.healthy_item_four.fats,
-                h4_carbs: meal_data.health.healthy_item_four.carbs,
-                h4_protein: meal_data.health.healthy_item_four.protein,
-                h4_calories: meal_data.health.healthy_item_four.calories,
-
-                h5_meal: meal_data.health.healthy_item_five.meal,
-                h5_keto: check_boxes.healthy_item_five.keto,
-                h5_paleo: check_boxes.healthy_item_five.paleo,
-                h5_gf: check_boxes.healthy_item_five.gf,
-                h5_fat: meal_data.health.healthy_item_five.fats,
-                h5_carbs: meal_data.health.healthy_item_five.carbs,
-                h5_protein: meal_data.health.healthy_item_five.protein,
-                h5_calories: meal_data.health.healthy_item_five.calories
+                sunday_meal: entrees.sunday.meal,
+                sunday_gf: entrees.sunday.gf,
+                sunday_fat: entrees.sunday.fats,
+                sunday_carbs: entrees.sunday.carbs,
+                sunday_protein: entrees.sunday.proteins,
+                sunday_calories: entrees.sunday.calories
             })
         });
     } else {
