@@ -17,7 +17,7 @@ router.get("/", (req, res, next) => {
             var dateObj = new Date(meal_data.date.toString())
 
             // Formats the date in a way that an input field acn understand it
-            var date = (dateObj.getFullYear()).toString() + "-" + helpers.format_to_two_digits(dateObj.getMonth()+1) + "-"  + helpers.format_to_two_digits(dateObj.getDate()+1) 
+            var date = (dateObj.getFullYear()).toString() + "-" + helpers.format_to_two_digits(dateObj.getMonth()+1) + "-"  + helpers.format_to_two_digits(dateObj.getDate()) 
 
             res.render("admin", {
                 date: date,

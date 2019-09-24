@@ -14,7 +14,7 @@ router.post("/", (req, res, next) => {
 
     var splitDate = menu_data.date.split("-")
     
-    splitDate[2] = (Number(splitDate[2]) + 1).toString()
+    // splitDate[2] = (Number(splitDate[2]) + 1).toString()
 
     var dateObj = new Date(splitDate.join("-"))
 
