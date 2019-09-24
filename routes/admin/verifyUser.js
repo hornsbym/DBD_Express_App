@@ -11,7 +11,7 @@ router.post("/", (req, res, next) => {
 
     if (username === process.env.ADMIN_USERNAME && password === process.env.ADMIN_PASSWORD) {
         req.session.valid = true;
-        res.redirect(process.env.URL + ":" + process.env.PORT + "/dashboard");
+        res.redirect("/dashboard");
     } else {
         req.session.loginError = "Check credentials and try again."
         res.render("login");
