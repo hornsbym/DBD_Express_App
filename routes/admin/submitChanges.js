@@ -11,6 +11,13 @@ var helpers = require("../../public/js/HelperFunctions.js")
 router.post("/", (req, res, next) => {
     var menu_data = req.body;
 
+
+    var splitDate = menu_data.date.split("-")
+    
+    // splitDate[2] = (Number(splitDate[2]) + 1).toString()
+
+    var dateObj = new Date(splitDate.join("-"))
+
     // Parses through the raw form data and creates a hierarchical JSON object representing a menu.
     var menu = {
         "monday":{
@@ -73,6 +80,9 @@ router.post("/", (req, res, next) => {
 
     // Stores the new menu object in a JSON file.
     helpers.store_menu(menu)
+
+    // Store the date object
+    helpers.store_date(dateObj)
 
     res.redirect("/dashboard");
 })

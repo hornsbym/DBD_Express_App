@@ -38,10 +38,11 @@ app.get("/", (req, res) => {
 })
 
 var getMenuRouter = require("./routes/website/getMenu")
+var getDateRouter = require("./routes/website/getDate")
 var loginRouter = require("./routes/admin/login")
 var dashboardRouter = require("./routes/admin/dashboard")
 var adminRouter = require("./routes/admin/admin")
-var scheduleUpdateRouter = require("./routes/admin/scheduleUpdate")
+// var scheduleUpdateRouter = require("./routes/admin/scheduleUpdate")
 var verifyUserRouter = require("./routes/admin/verifyUser")
 var submitChangesRouter = require("./routes/admin/submitChanges")
 
@@ -49,6 +50,7 @@ var submitChangesRouter = require("./routes/admin/submitChanges")
 // Applies routers to the App.
 //// These routes are used for the public portion of the website:
 app.use("/", getMenuRouter)
+app.use("/", getDateRouter)
 
 //// The routes below need to be properly implemented:
 //

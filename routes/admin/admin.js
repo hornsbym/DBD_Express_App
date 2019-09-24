@@ -6,6 +6,7 @@ var router = express.Router()
 
 // Pulls in auxillary functions:
 var json = require("../../public/js/GetMenus.js")
+var helpers = require("../../public/js/HelperFunctions.js")
 
 // Define router behavior:
 router.get("/", (req, res, next) => {
@@ -13,8 +14,13 @@ router.get("/", (req, res, next) => {
         json.download_meal_data((meal_data) => {
 
             var entrees = meal_data.entrees
+            var dateObj = new Date(meal_data.date.toString())
+
+            // Formats the date in a way that an input field acn understand it
+            var date = (dateObj.getFullYear()).toString() + "-" + helpers.format_to_two_digits(dateObj.getMonth()+1) + "-"  + helpers.format_to_two_digits(dateObj.getDate()+1) 
 
             res.render("admin", {
+                date: date,
                 monday_meal: entrees.monday.meal,
                 monday_gf: entrees.monday.gf,
                 monday_fat: entrees.monday.fats,

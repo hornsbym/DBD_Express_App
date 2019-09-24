@@ -53,6 +53,27 @@ function create_log_key(date) {
     return date_string + "-" + DOW
 }
 
+function format_to_two_digits(integer){
+    var i = integer.toString()
+    var iLen = i.length
+
+    var returnString;
+
+    switch(iLen) {
+        default:
+            returnString = ""
+            break
+        case 1:
+            returnString = "0" + i
+            break
+        case 2:
+            returnString = i
+            break
+    }
+
+    return returnString
+}
+
 function create_date_input_string(dateJSON) {
     return String(dateJSON.year + "-" + dateJSON.month + "-" + dateJSON.day);
 }
@@ -232,14 +253,23 @@ function read(file_location, callback) {
 /**
  * Recieves a JSON object representing the week's menu.
  * Stores that object in "/json/menu.json".
- * @param {*} menuJSON 
+ * @param {JSON} menuJSON 
  */
 function store_menu(menuJSON) {
     var entrees = JSON.stringify(menuJSON)
 
-    save(getPathToFile("menu.json"), entrees, () => {
-    })
+    save(getPathToFile("menu.json"), entrees, () => {})
 }
+
+/**
+ * Recieves a Date object.
+ * Stores that object in "/json/date.json"
+ * @param {Date} dateObject
+ */
+function store_date(dateObject){
+    save(getPathToFile("date.json"), dateObject, () => {})
+}
+
 
 module.exports = {
     save: save,
@@ -253,5 +283,7 @@ module.exports = {
     schedule_update: schedule_update,
     convert_number_to_month: convert_number_to_month,
     store_menu: store_menu,
-    get_log_stats: get_log_stats
+    store_date: store_date,
+    get_log_stats: get_log_stats,
+    format_to_two_digits: format_to_two_digits
 }

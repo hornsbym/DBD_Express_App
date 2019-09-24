@@ -4,126 +4,127 @@ html
         link(rel="stylesheet", href="/static/css/adminStyles.css")
         link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
     body
-        div.container
-            form(action="/submitChanges" method="POST")
-                //- table
-                //-     tr
-                //-         th
-                //-             label(for="date")="Displayed date "
-                //-         td
-                //-             input(id="date" name="date" type="date" value=date)
-                table.table.table-striped
-                    div.container-fluid
-                        thead.thead-dark
-                            tr.row
-                                th.col=""
-                                th.col-md-5="Meal"
-                                th.col-md-1="GF?"
-                                th.col="Fat"
-                                th.col="Protein"
-                                th.col="Carbs"
-                                th.col="Calories"
-                    div.container-fluid
-                        tbody
-                            tr.row
-                                th.col="Monday"
-                                td.col-md-5
-                                    input(name="monday_meal" type="text" value=monday_meal).form-control
-                                td.col-md-1
-                                    input(name="monday_gf" type="checkbox" checked=monday_gf).form-control
-                                td.col
-                                    input(name="monday_fat" type="number" value=monday_fat).form-control
-                                td.col
-                                    input(name="monday_protein" type="number" value=monday_protein).form-control
-                                td.col
-                                    input(name="monday_carbs" type="number" value=monday_carbs).form-control
-                                td.col
-                                    input(name="monday_calories" type="number" value=monday_calories).form-control
-                            tr.row
-                                th.col="Tuesday"
-                                td.col-md-5
-                                    input(name="tuesday_meal" type="text" value=tuesday_meal).form-control
-                                td.col-md-1
-                                    input(name="tuesday_gf" type="checkbox" checked=tuesday_gf).form-control
-                                td.col
-                                    input(name="tuesday_fat" type="number" value=tuesday_fat).form-control
-                                td.col
-                                    input(name="tuesday_protein" type="number" value=tuesday_protein).form-control
-                                td.col
-                                    input(name="tuesday_carbs" type="number" value=tuesday_carbs).form-control
-                                td.col
-                                    input(name="tuesday_calories" type="number" value=tuesday_calories).form-control
-                            tr.row
-                                th.col="Wednesday"
-                                td.col-md-5
-                                    input(name="wednesday_meal" type="text" value=wednesday_meal).form-control
-                                td.col-md-1
-                                    input(name="wednesday_gf" type="checkbox" checked=wednesday_gf).form-control
-                                td.col
-                                    input(name="wednesday_fat" type="number" value=wednesday_fat).form-control
-                                td.col
-                                    input(name="wednesday_protein" type="number" value=wednesday_protein).form-control
-                                td.col
-                                    input(name="wednesday_carbs" type="number" value=wednesday_carbs).form-control
-                                td.col
-                                    input(name="wednesday_calories" type="number" value=wednesday_calories).form-control
-                            tr.row
-                                th.col="Thursday"
-                                td.col-md-5
-                                    input(name="thursday_meal" type="text" value=thursday_meal).form-control
-                                td.col-md-1
-                                    input(name="thursday_gf" type="checkbox" checked=thursday_gf).form-control
-                                td.col
-                                    input(name="thursday_fat" type="number" value=thursday_fat).form-control
-                                td.col
-                                    input(name="thursday_protein" type="number" value=thursday_protein).form-control
-                                td.col
-                                    input(name="thursday_carbs" type="number" value=thursday_carbs).form-control
-                                td.col
-                                    input(name="thursday_calories" type="number" value=thursday_calories).form-control
-                            tr.row
-                                th.col="Friday"
-                                td.col-md-5
-                                    input(name="friday_meal" type="text" value=friday_meal).form-control
-                                td.col-md-1
-                                    input(name="friday_gf" type="checkbox" checked=friday_gf).form-control
-                                td.col
-                                    input(name="friday_fat" type="number" value=friday_fat).form-control
-                                td.col
-                                    input(name="friday_protein" type="number" value=friday_protein).form-control
-                                td.col
-                                    input(name="friday_carbs" type="number" value=friday_carbs).form-control
-                                td.col
-                                    input(name="friday_calories" type="number" value=friday_calories).form-control
-                            tr.row
-                                th.col="Saturday"
-                                td.col-md-5
-                                    input(name="saturday_meal" type="text" value=saturday_meal).form-control
-                                td.col-md-1
-                                    input(name="saturday_gf" type="checkbox" checked=saturday_gf).form-control
-                                td.col
-                                    input(name="saturday_fat" type="number" value=saturday_fat).form-control
-                                td.col
-                                    input(name="saturday_protein" type="number" value=saturday_protein).form-control
-                                td.col
-                                    input(name="saturday_carbs" type="number" value=saturday_carbs).form-control
-                                td.col
-                                    input(name="saturday_calories" type="number" value=saturday_calories).form-control
-                            tr.row
-                                th.col="Sunday"
-                                td.col-md-5
-                                    input(name="sunday_meal" type="text" value=sunday_meal).form-control
-                                td.col-md-1
-                                    input(name="sunday_gf" type="checkbox" checked=sunday_gf).form-control
-                                td.col
-                                    input(name="sunday_fat" type="number" value=sunday_fat).form-control
-                                td.col
-                                    input(name="sunday_protein" type="number" value=sunday_protein).form-control
-                                td.col
-                                    input(name="sunday_carbs" type="number" value=sunday_carbs).form-control
-                                td.col
-                                    input(name="sunday_calories" type="number" value=sunday_calories).form-control
-                input(type="submit").form-control.btn-primary
+        form(action="/submitChanges" method="POST")
+            div.container
+                div.row
+                    div.container
+                        div.row.justify-content-center
+                            strong
+                                label(for="date")="Displayed date"
+                            input(id="date" name="date" type="date" value=date).form-control.col-md-4.ml-2
+                div.row
+                    table.table.table-striped
+                        div.container-fluid
+                            thead.thead-dark
+                                tr.row
+                                    th.col=""
+                                    th.col-md-5="Meal"
+                                    th.col-md-1="GF?"
+                                    th.col="Fat"
+                                    th.col="Protein"
+                                    th.col="Carbs"
+                                    th.col="Calories"
+                        div.container-fluid
+                            tbody
+                                tr.row
+                                    th.col="Monday"
+                                    td.col-md-5
+                                        input(name="monday_meal" type="text" value=monday_meal).form-control
+                                    td.col-md-1
+                                        input(name="monday_gf" type="checkbox" checked=monday_gf).form-control
+                                    td.col
+                                        input(name="monday_fat" type="number" value=monday_fat).form-control
+                                    td.col
+                                        input(name="monday_protein" type="number" value=monday_protein).form-control
+                                    td.col
+                                        input(name="monday_carbs" type="number" value=monday_carbs).form-control
+                                    td.col
+                                        input(name="monday_calories" type="number" value=monday_calories).form-control
+                                tr.row
+                                    th.col="Tuesday"
+                                    td.col-md-5
+                                        input(name="tuesday_meal" type="text" value=tuesday_meal).form-control
+                                    td.col-md-1
+                                        input(name="tuesday_gf" type="checkbox" checked=tuesday_gf).form-control
+                                    td.col
+                                        input(name="tuesday_fat" type="number" value=tuesday_fat).form-control
+                                    td.col
+                                        input(name="tuesday_protein" type="number" value=tuesday_protein).form-control
+                                    td.col
+                                        input(name="tuesday_carbs" type="number" value=tuesday_carbs).form-control
+                                    td.col
+                                        input(name="tuesday_calories" type="number" value=tuesday_calories).form-control
+                                tr.row
+                                    th.col="Wednesday"
+                                    td.col-md-5
+                                        input(name="wednesday_meal" type="text" value=wednesday_meal).form-control
+                                    td.col-md-1
+                                        input(name="wednesday_gf" type="checkbox" checked=wednesday_gf).form-control
+                                    td.col
+                                        input(name="wednesday_fat" type="number" value=wednesday_fat).form-control
+                                    td.col
+                                        input(name="wednesday_protein" type="number" value=wednesday_protein).form-control
+                                    td.col
+                                        input(name="wednesday_carbs" type="number" value=wednesday_carbs).form-control
+                                    td.col
+                                        input(name="wednesday_calories" type="number" value=wednesday_calories).form-control
+                                tr.row
+                                    th.col="Thursday"
+                                    td.col-md-5
+                                        input(name="thursday_meal" type="text" value=thursday_meal).form-control
+                                    td.col-md-1
+                                        input(name="thursday_gf" type="checkbox" checked=thursday_gf).form-control
+                                    td.col
+                                        input(name="thursday_fat" type="number" value=thursday_fat).form-control
+                                    td.col
+                                        input(name="thursday_protein" type="number" value=thursday_protein).form-control
+                                    td.col
+                                        input(name="thursday_carbs" type="number" value=thursday_carbs).form-control
+                                    td.col
+                                        input(name="thursday_calories" type="number" value=thursday_calories).form-control
+                                tr.row
+                                    th.col="Friday"
+                                    td.col-md-5
+                                        input(name="friday_meal" type="text" value=friday_meal).form-control
+                                    td.col-md-1
+                                        input(name="friday_gf" type="checkbox" checked=friday_gf).form-control
+                                    td.col
+                                        input(name="friday_fat" type="number" value=friday_fat).form-control
+                                    td.col
+                                        input(name="friday_protein" type="number" value=friday_protein).form-control
+                                    td.col
+                                        input(name="friday_carbs" type="number" value=friday_carbs).form-control
+                                    td.col
+                                        input(name="friday_calories" type="number" value=friday_calories).form-control
+                                tr.row
+                                    th.col="Saturday"
+                                    td.col-md-5
+                                        input(name="saturday_meal" type="text" value=saturday_meal).form-control
+                                    td.col-md-1
+                                        input(name="saturday_gf" type="checkbox" checked=saturday_gf).form-control
+                                    td.col
+                                        input(name="saturday_fat" type="number" value=saturday_fat).form-control
+                                    td.col
+                                        input(name="saturday_protein" type="number" value=saturday_protein).form-control
+                                    td.col
+                                        input(name="saturday_carbs" type="number" value=saturday_carbs).form-control
+                                    td.col
+                                        input(name="saturday_calories" type="number" value=saturday_calories).form-control
+                                tr.row
+                                    th.col="Sunday"
+                                    td.col-md-5
+                                        input(name="sunday_meal" type="text" value=sunday_meal).form-control
+                                    td.col-md-1
+                                        input(name="sunday_gf" type="checkbox" checked=sunday_gf).form-control
+                                    td.col
+                                        input(name="sunday_fat" type="number" value=sunday_fat).form-control
+                                    td.col
+                                        input(name="sunday_protein" type="number" value=sunday_protein).form-control
+                                    td.col
+                                        input(name="sunday_carbs" type="number" value=sunday_carbs).form-control
+                                    td.col
+                                        input(name="sunday_calories" type="number" value=sunday_calories).form-control
+                    input(type="submit").form-control.btn-primary
         script(src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous")
         script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous")
         script(src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous")
